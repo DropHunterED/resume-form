@@ -1,20 +1,235 @@
 <!DOCTYPE html>
-<html>
+<html lang="uk">
 <head>
-    <title>Форма заявки</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма відправки резюме</title>
+    <style>
+        /* Основные стили */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            animation: fadeIn 0.5s ease-in-out;
+            box-sizing: border-box; /* Важно: чтобы padding не увеличивал ширину */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-container h1 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-container input,
+        .form-container textarea,
+        .form-container input[type="file"] {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1.25rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box; /* Важно: чтобы padding не увеличивал ширину */
+            height: 48px; /* Фиксированная высота, как у кнопки "Прикріпити резюме" */
+        }
+
+        .form-container input:focus,
+        .form-container textarea:focus,
+        .form-container input[type="file"]:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+            outline: none;
+        }
+
+        .form-container textarea {
+            resize: vertical;
+            height: 120px; /* Высота текстового поля */
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            height: 48px; /* Фиксированная высота, как у полей */
+        }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .form-container button:active {
+            transform: translateY(0);
+        }
+
+        /* Стили для файлового поля */
+        .file-input {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1.25rem;
+        }
+
+        .file-input input[type="file"] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+        }
+
+        .file-input label {
+            display: block;
+            padding: 0.75rem;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            text-align: center;
+            color: #555;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            height: 48px; /* Фиксированная высота, как у полей */
+            line-height: 48px; /* Выравнивание текста по центру */
+        }
+
+        .file-input label:hover {
+            background: #e9ecef;
+        }
+
+        /* Анимация для кнопки */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .form-container button:focus {
+            animation: pulse 1s infinite;
+        }
+
+        /* Стили для ошибок валидации */
+        .error-message {
+            color: #ff0000;
+            font-size: 0.875rem;
+            margin-top: -0.75rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .error-message.active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <h1>Форма для отправки резюме</h1>
-    <form action="https://formspree.io/f/{ВАШ_АДРЕС}" method="POST" enctype="multipart/form-data">
-        <label>Имя:</label>
-        <input type="text" name="name" required><br>
-        <label>Телефон:</label>
-        <input type="tel" name="phone" required><br>
-        <label>Email:</label>
-        <input type="email" name="email" required><br>
-        <label>Резюме:</label>
-        <input type="file" name="resume"><br>
-        <button type="submit">Отправить</button>
-    </form>
+    <div class="form-container">
+        <h1>Форма відправки резюме</h1>
+        <form id="resumeForm" action="your-server-script.php" method="POST" enctype="multipart/form-data">
+            <!-- Поле для имени -->
+            <div class="input-group">
+                <input type="text" id="name" name="name" placeholder="Ім'я" required>
+            </div>
+
+            <!-- Поле для мобильного номера -->
+            <div class="input-group">
+                <input type="tel" id="phone" name="phone" placeholder="Мобільний номер (380XXXXXXXXX)" required
+                       pattern="380[0-9]{9}" title="Введіть номер у форматі 380XXXXXXXXX">
+                <div id="phoneError" class="error-message">Будь ласка, введіть номер у форматі 380XXXXXXXXX.</div>
+            </div>
+
+            <!-- Поле для ника в Telegram -->
+            <div class="input-group">
+                <input type="text" id="tg_nick" name="tg_nick" placeholder="Нік в Telegram" required>
+            </div>
+
+            <!-- Поле для файла -->
+            <div class="file-input">
+                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+                <label for="resume">Прикріпити резюме</label>
+            </div>
+
+            <!-- Поле для текста "Напишіть про себе" -->
+            <div class="input-group">
+                <textarea id="message" name="message" placeholder="Напишіть про себе" required></textarea>
+            </div>
+
+            <!-- Кнопка отправки -->
+            <button type="submit">Відправити</button>
+        </form>
+    </div>
+
+    <script>
+        // Валидация номера телефона
+        const phoneInput = document.getElementById('phone');
+        const phoneError = document.getElementById('phoneError');
+
+        phoneInput.addEventListener('input', function () {
+            const phoneValue = phoneInput.value;
+            if (!/^380\d{9}$/.test(phoneValue)) {
+                phoneError.classList.add('active');
+            } else {
+                phoneError.classList.remove('active');
+            }
+        });
+
+        // Валидация формы перед отправкой
+        const form = document.getElementById('resumeForm');
+        form.addEventListener('submit', function (event) {
+            const phoneValue = phoneInput.value;
+            if (!/^380\d{9}$/.test(phoneValue)) {
+                phoneError.classList.add('active');
+                event.preventDefault(); // Остановить отправку формы
+            }
+        });
+    </script>
 </body>
 </html>

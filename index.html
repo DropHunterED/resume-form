@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Форма заявки</title>
+</head>
+<body>
+    <h1>Форма для отправки резюме</h1>
+    <form action="https://formspree.io/f/{ВАШ_АДРЕС}" method="POST" enctype="multipart/form-data">
+        <label>Имя:</label>
+        <input type="text" name="name" required><br>
+        <label>Телефон:</label>
+        <input type="tel" name="phone" required><br>
+        <label>Email:</label>
+        <input type="email" name="email" required><br>
+        <label>Резюме:</label>
+        <input type="file" name="resume"><br>
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+</html>

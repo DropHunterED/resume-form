@@ -173,7 +173,7 @@
 <body>
     <div class="form-container">
         <h1>Форма відправки резюме</h1>
-        <form id="resumeForm" action="your-server-script.php" method="POST" enctype="multipart/form-data">
+        <form id="resumeForm" <form action="/.netlify/functions/submit" method="POST" enctype="multipart/form-data"> method="POST" enctype="multipart/form-data">
             <!-- Поле для имени -->
             <div class="input-group">
                 <input type="text" id="name" name="name" placeholder="Ім'я" required>
